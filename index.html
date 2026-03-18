@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Future Index</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green-deep: #0a2e1a;
+      --green-mid: #1a5c35;
+      --green-bright: #2ecc71;
+      --green-lime: #a8e063;
+      --gold: #c9a84c;
+      --cream: #f5f0e8;
+      --white: #ffffff;
+      --text-dark: #0d1f13;
+      --glass: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--green-deep);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(10, 46, 26, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      color: var(--green-lime);
+      line-height: 1.1;
+    }
+
+    .nav-logo-text span {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--green-lime); }
+
+    .nav-cta {
+      background: var(--green-bright);
+      color: var(--green-deep) !important;
+      padding: 0.55rem 1.4rem;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      color: var(--green-deep) !important;
+      transition: background 0.3s, transform 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--green-lime) !important;
+      color: var(--green-deep) !important;
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(46,204,113,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(168,224,99,0.08) 0%, transparent 50%),
+        linear-gradient(160deg, #0a2e1a 0%, #061a10 100%);
+      z-index: 0;
+    }
+
+    /* Animated rings */
+    .hero-rings {
+      position: absolute;
+      right: -10%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 700px;
+      height: 700px;
+      z-index: 0;
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(46,204,113,0.15);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse-ring 6s ease-in-out infinite;
+    }
+
+    .ring:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
+    .ring:nth-child(2) { width: 450px; height: 450px; animation-delay: 1s; }
+    .ring:nth-child(3) { width: 600px; height: 600px; animation-delay: 2s; }
+
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.03); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 1s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(46,204,113,0.1);
+      border: 1px solid rgba(46,204,113,0.25);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-lime);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green-bright);
+      border-radius: 50%;
+      animation: blink 2s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--green-lime);
+      position: relative;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--green-lime);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+    }
+
+    /* LOGIN CARD */
+    .login-card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 2.8rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+      animation: fadeUp 1s ease 0.2s both;
+      max-width: 420px;
+      margin-left: auto;
+    }
+
+    .login-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--white);
+    }
+
+    .login-card > p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .form-group input::placeholder { color: rgba(255,255,255,0.25); }
+
+    .form-group input:focus {
+      border-color: var(--green-bright);
+      background: rgba(46,204,113,0.05);
+    }
+
+    .login-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.8rem;
+      font-size: 0.82rem;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+    }
+
+    .remember input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: var(--green-bright);
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: var(--green-lime);
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .forgot-link:hover { opacity: 0.7; }
+
+    .btn-login {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--green-bright), var(--green-lime));
+      color: var(--green-deep);
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(46,204,113,0.3);
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(46,204,113,0.45);
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .login-footer a {
+      color: var(--green-lime);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(46,204,113,0.2), transparent);
+      margin: 0 4rem;
+      width: calc(100% - 8rem);
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about {
+      padding: 6rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green-bright);
+      margin-bottom: 1rem;
+    }
+
+    .about h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.15;
+      max-width: 680px;
+      margin-bottom: 2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 1rem;
+    }
+
+    .about-grid p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── INDEX TICKER ── */
+    .ticker-section {
+      padding: 3rem 4rem;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+      overflow: hidden;
+    }
+
+    .ticker-wrap {
+      display: flex;
+      gap: 3rem;
+      animation: ticker 25s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.04em;
+    }
+
+    .ticker-item .val { color: var(--green-lime); }
+    .ticker-item .up { color: #5ddf8a; }
+    .ticker-item .down { color: #e05d5d; }
+
+    /* ── ENERGY SECTORS ── */
+    .sectors {
+      padding: 6rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .sectors-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+    }
+
+    .sectors-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      max-width: 400px;
+    }
+
+    .sectors-header p {
+      max-width: 340px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
+      text-align: right;
+    }
+
+    .sectors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .sector-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .sector-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, var(--card-glow), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .sector-card:hover {
+      border-color: rgba(46,204,113,0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .sector-card:hover::before { opacity: 1; }
+
+    .sector-card:nth-child(1) { --card-glow: rgba(46,204,113,0.08); }
+    .sector-card:nth-child(2) { --card-glow: rgba(201,168,76,0.08); }
+    .sector-card:nth-child(3) { --card-glow: rgba(100,180,255,0.08); }
+
+    .sector-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sector-icon.hydro { background: rgba(46,204,113,0.12); }
+    .sector-icon.solar { background: rgba(201,168,76,0.12); }
+    .sector-icon.wind  { background: rgba(100,180,255,0.12); }
+
+    .sector-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+
+    .sector-card p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1.5rem;
+    }
+
+    .sector-bar-wrap {
+      margin-bottom: 0.4rem;
+    }
+
+    .sector-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.04em;
+    }
+
+    .sector-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .sector-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 1.5s ease;
+    }
+
+    .hydro-fill { background: linear-gradient(90deg, var(--green-bright), var(--green-lime)); width: 68%; }
+    .solar-fill { background: linear-gradient(90deg, #c9a84c, #f5d878); width: 82%; }
+    .wind-fill  { background: linear-gradient(90deg, #64b4ff, #a0d4ff); width: 75%; }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 6rem 4rem;
+      background: linear-gradient(180deg, transparent, rgba(46,204,113,0.03), transparent);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .how h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      margin-bottom: 3.5rem;
+      text-align: center;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(46,204,113,0.3), transparent);
+    }
+
+    .step {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .step-num {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(46,204,113,0.08);
+      border: 1px solid rgba(46,204,113,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--green-bright);
+      margin: 0 auto 1.2rem;
+    }
+
+    .step h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .step p {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 4rem;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .footer-brand strong {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--green-lime);
+    }
+
+    .footer-brand span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--green-lime); }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #0d2218;
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+      transform: scale(0.95);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.active .modal { transform: scale(1); }
+
+    .modal-icon {
+      width: 64px; height: 64px;
+      background: rgba(46,204,113,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1.2rem;
+    }
+
+    .modal h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 1.8rem;
+    }
+
+    .btn-modal {
+      padding: 0.75rem 2rem;
+      background: var(--green-bright);
+      color: var(--green-deep);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-modal:hover { background: var(--green-lime); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+      .hero-rings { display: none; }
+      .login-card { margin: 0 auto; }
+      .about, .sectors, .how { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .sectors-header { flex-direction: column; gap: 1rem; }
+      .sectors-header p { text-align: left; }
+      .sectors-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .steps::before { display: none; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav>
+  <div class="nav-logo">
+    <img src="gfix.png" alt="Green Future Index Logo" onerror="this.style.display='none'"/>
+    <div class="nav-logo-text">
+      Green Future Index
+      <span>Energie Regenerabilă</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">Despre</a></li>
+    <li><a href="#sectors">Sectoare</a></li>
+    <li><a href="#how">Cum funcționează</a></li>
+    <li><a href="#login" class="nav-cta">Autentificare</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="login">
+  <div class="hero-bg"></div>
+  <div class="hero-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Index activ · Energie Verde</div>
+    <h1>Investiții pentru un<br/><em>viitor sustenabil</em></h1>
+    <p>Green Future Index (GFIX) urmărește performanța celor mai importante companii din sectorul energiei regenerabile — hidroenergie, solar și eolian — oferind investitorilor o perspectivă clară asupra tranziției energetice globale.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Sectoare verzi</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">28</span>
+        <span class="stat-label">Companii listate</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">18</span>
+        <span class="stat-label">Piețe acoperite</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="login-card">
+    <h2>Bun venit înapoi</h2>
+    <p>Autentifică-te pentru a accesa portalul GFIX</p>
+
+    <div class="form-group">
+      <label>Adresă Email</label>
+      <input type="email" placeholder="email@exemplu.com"/>
+    </div>
+    <div class="form-group">
+      <label>Parolă</label>
+      <input type="password" placeholder="••••••••"/>
+    </div>
+
+    <div class="login-options">
+      <label class="remember">
+        <input type="checkbox"/> Ține-mă conectat
+      </label>
+      <a href="#" class="forgot-link">Ai uitat parola?</a>
+    </div>
+
+    <button class="btn-login" onclick="showModal()">Autentificare</button>
+
+    <div class="login-footer">
+      Nu ai cont? <a href="#">Creează unul gratuit</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker-section">
+  <div class="ticker-wrap" id="ticker">
+    <span class="ticker-item">GFIX <span class="val">1.842,30</span> <span class="up">▲ +1,24%</span></span>
+    <span class="ticker-item">HIDRO <span class="val">423,10</span> <span class="up">▲ +0,87%</span></span>
+    <span class="ticker-item">SOLAR <span class="val">698,55</span> <span class="up">▲ +2,14%</span></span>
+    <span class="ticker-item">EOLIAN <span class="val">320,65</span> <span class="down">▼ -0,33%</span></span>
+    <span class="ticker-item">CO₂ SAVED <span class="val">4,2 Mt</span> <span class="up">▲ +5,1%</span></span>
+    <span class="ticker-item">GW INSTALAȚI <span class="val">3.840</span> <span class="up">▲ +3,6%</span></span>
+    <!-- Duplicated for seamless loop -->
+    <span class="ticker-item">GFIX <span class="val">1.842,30</span> <span class="up">▲ +1,24%</span></span>
+    <span class="ticker-item">HIDRO <span class="val">423,10</span> <span class="up">▲ +0,87%</span></span>
+    <span class="ticker-item">SOLAR <span class="val">698,55</span> <span class="up">▲ +2,14%</span></span>
+    <span class="ticker-item">EOLIAN <span class="val">320,65</span> <span class="down">▼ -0,33%</span></span>
+    <span class="ticker-item">CO₂ SAVED <span class="val">4,2 Mt</span> <span class="up">▲ +5,1%</span></span>
+    <span class="ticker-item">GW INSTALAȚI <span class="val">3.840</span> <span class="up">▲ +3,6%</span></span>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section class="about" id="about">
+  <div class="section-label">Despre GFIX</div>
+  <h2>Ce este Green Future Index și de ce contează?</h2>
+  <div class="about-grid">
+    <p>Green Future Index (GFIX) este un indice bursier specializat care măsoară evoluția colectivă a companiilor active în producția și distribuția de energie regenerabilă. Prin agregarea datelor din trei mari sectoare — hidroenergie, energie solară și energie eoliană — GFIX oferă o imagine fidelă a direcției pe care o ia economia globală în tranziția de la combustibili fosili la surse curate de energie.</p>
+    <p>Metodologia GFIX ponderează componentele indexului în funcție de capacitatea instalată, volumul de energie produsă și impactul de mediu certificat. Rezultatul este un instrument de referință pentru investitori instituționali, fonduri ESG și orice actor economic interesat de piețele de energie verde. Indexul este recalculat zilnic și publicat în timp real pe această platformă.</p>
+  </div>
+</section>
+
+<!-- ── SECTORS ── -->
+<section class="sectors" id="sectors">
+  <div class="sectors-header">
+    <h2>Sectoarele acoperite de index</h2>
+    <p>Trei piloni ai energiei curate, urmăriți simultan pentru o diversificare optimă a expunerii.</p>
+  </div>
+
+  <div class="sectors-grid">
+    <!-- HYDRO -->
+    <div class="sector-card">
+      <div class="sector-icon hydro">💧</div>
+      <h3>Hidroenergie</h3>
+      <p>Cea mai matură sursă de energie regenerabilă, hidroenergia valorifică forța apei — râuri, lacuri de acumulare și micro-centrale fluviale — pentru a genera curent electric stabil și previzibil, independent de condițiile meteorologice.</p>
+      <div class="sector-bar-wrap">
+        <div class="sector-bar-label">
+          <span>Pondere în GFIX</span><span>68%</span>
+        </div>
+        <div class="sector-bar"><div class="sector-bar-fill hydro-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- SOLAR -->
+    <div class="sector-card">
+      <div class="sector-icon solar">☀️</div>
+      <h3>Energie Solară</h3>
+      <p>Panourile fotovoltaice și centralele solare termice transformă radiația solară direct în electricitate sau căldură. Cu costuri în continuă scădere și o rată de instalare accelerată la nivel global, solarele reprezintă sectorul cu creșterea cea mai rapidă din index.</p>
+      <div class="sector-bar-wrap">
+        <div class="sector-bar-label">
+          <span>Pondere în GFIX</span><span>82%</span>
+        </div>
+        <div class="sector-bar"><div class="sector-bar-fill solar-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- WIND -->
+    <div class="sector-card">
+      <div class="sector-icon wind">🌬️</div>
+      <h3>Energie Eoliană</h3>
+      <p>Turbinele eoliene onshore și offshore captează energia cinetică a vântului și o transformă în electricitate. Parcurile eoliene offshore, instalate pe mare, beneficiază de vânturi constante și puternice, devenind tot mai competitive din punct de vedere economic.</p>
+      <div class="sector-bar-wrap">
+        <div class="sector-bar-label">
+          <span>Pondere în GFIX</span><span>75%</span>
+        </div>
+        <div class="sector-bar"><div class="sector-bar-fill wind-fill"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<div style="max-width:1100px; margin:0 auto; padding: 0 4rem;">
+  <div class="section-divider"></div>
+</div>
+
+<section class="how" id="how">
+  <div class="section-label" style="text-align:center; margin-bottom:0.5rem;">Metodologie</div>
+  <h2>Cum funcționează GFIX?</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Selecție</h4>
+      <p>Companiile sunt evaluate pe baza criteriilor ESG, a capacității instalate și a certificărilor de mediu.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Ponderare</h4>
+      <p>Fiecare component primește o pondere calculată după producția de energie curată și impactul de CO₂.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Calcul zilnic</h4>
+      <p>Indexul este recalculat la finalul fiecărei sesiuni de tranzacționare, reflectând prețurile de închidere.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Publicare</h4>
+      <p>Datele sunt disponibile în timp real pe platformă pentru toți utilizatorii autentificați.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">
+    <strong>GREEN FUTURE INDEX</strong>
+    <span>© 2025 GFIX. Toate drepturile rezervate.</span>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">Politica de confidențialitate</a></li>
+    <li><a href="#">Termeni și condiții</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">Metodologie</a></li>
+  </ul>
+  <div class="footer-copy">Date furnizate în scop informativ.</div>
+</footer>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h3>Autentificare reușită</h3>
+    <p>Bun venit în portalul Green Future Index. Accesul la datele GFIX a fost activat cu succes.</p>
+    <button class="btn-modal" onclick="closeModal()">Continuă la portal</button>
+  </div>
+</div>
+
+<script>
+  function showModal() {
+    document.getElementById('modal').classList.add('active');
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>
